@@ -1,12 +1,20 @@
+import java.util.*;
 public class Simulation{
     //the actual simulation
     public static void main(String[] args) {
         double[] ws = new double[500];
+        double sum = 0;
         RandomNumGen num = new RandomNumGen();
         for(int i = 0; i<500; i++){
             ws[i] = findw(num)/60;
-            System.out.println(ws[i]);
+            //System.out.println(ws[i]);
+            sum+=ws[i];
         }
+        Arrays.sort(ws);
+        System.out.println(Arrays.toString(ws));
+        System.out.println("mean: " + sum/500);
+        System.out.println("median: " + (ws[ws.length/2] + ws[(ws.length/2)-1]) / 2.0);
+
     }
 
     //returns number of seconds for 1 customer
@@ -21,7 +29,7 @@ public class Simulation{
             cur = num.nextRandom();
             if(cur<=.3536){ //connects in less than 2 min
                 w +=5; //get connected
-                w += var.ContinuousX(); //continuous
+                w += var.ContinuousX();
                 cur = num.nextRandom(); //generate new random number
                 if(cur<=.1){ //agent a
                     w += 60.0*1.1;
