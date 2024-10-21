@@ -2,17 +2,18 @@ public class Simulation{
     //the actual simulation
     public static void main(String[] args) {
         double[] ws = new double[500];
+        RandomNumGen num = new RandomNumGen();
         for(int i = 0; i<500; i++){
-            ws[i] = findw()/60;
+            ws[i] = findw(num)/60;
             System.out.println(ws[i]);
         }
     }
 
     //returns number of seconds for 1 customer
-    public static double findw(){
+    public static double findw(RandomNumGen num){
         double w = 0.0;
         int calls = 0;
-        RandomNumGen num = new RandomNumGen();
+        //RandomNumGen num = new RandomNumGen();
         RandomVarGen var = new RandomVarGen(num);
         double cur = 0.0;
         while(calls<3){
@@ -20,16 +21,16 @@ public class Simulation{
             cur = num.nextRandom();
             if(cur<=.3536){ //connects in less than 2 min
                 w +=5; //get connected
-                //w += random variabel that adds the time spent waiting
+                w += var.ContinuousX(); //continuous
                 cur = num.nextRandom(); //generate new random number
                 if(cur<=.1){ //agent a
-                    w += 60*1.1;
+                    w += 60.0*1.1;
                 }
-                else if(w<=.3){ //agent b
-                    w+=60*1.5;
+                else if(cur<=.3){ //agent b
+                    w+=60.0*1.5;
                 }
-                else if (w<=.55){ //agent c
-                    w+=60*1.65;
+                else if (cur<=.55){ //agent c
+                    w+=60.0*1.65;
                 }
                 else{
                     w+=1.9*60;
@@ -48,3 +49,4 @@ public class Simulation{
         return w;
     }
 }
+
